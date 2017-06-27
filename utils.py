@@ -1,3 +1,4 @@
+import scipy.misc
 import skimage
 import skimage.io
 import skimage.transform
@@ -11,7 +12,7 @@ import numpy as np
 # [height, width, depth]
 def load_image(path):
     # load image
-    img = skimage.io.imread(path)
+    img = scipy.misc.imread(path, mode='RGB')
     img = img / 255.0
     assert (0 <= img).all() and (img <= 1.0).all()
     # print "Original Image Shape: ", img.shape
