@@ -32,12 +32,16 @@ def val(sess, i, vgg, img_placeholder, labels):
 	return in_top1, in_top5
 
 if __name__ == '__main__':
+
+	images = tf.placeholder("float", [1, 224, 224, 3])
+	vgg = vgg16.Vgg16()
+	with tf.name_scope("content_vgg"):
+		vgg.build(images)
+
 	with tf.Session() as sess:
-		
-		images = tf.placeholder("float", [1, 224, 224, 3])
-		vgg = vgg16.Vgg16()
-		with tf.name_scope("content_vgg"):
-			vgg.build(images)
+
+		sess.run(tf.global_variables_initializer())
+		vgg.prune(sess)
 
 		label_file = open(img_label, 'r')
 		labels = [int(row) for row in label_file]
